@@ -4,6 +4,18 @@ import { Badge } from "@/components/ui/badge";
 import { type ColumnDef } from "@tanstack/react-table";
 import { labels, priorities, statuses } from "../_constants/metadata";
 import { type Task } from "../_constants/schema";
+import { MouseEventHandler } from "react";
+
+type ResizeHandler = (ref: HTMLElement, delta: { width: number }, width: number) => void;
+const handleResize: ResizeHandler = (ref, delta, width) => {
+    // Restrict resizing to the x-axis only
+    ref.style.width = `${parseInt(ref.style.width) + delta.width}px`;
+};
+
+const handleResizeWrapper: MouseEventHandler<HTMLDivElement> = (event) => {
+    // Call the handleResize function with the appropriate parameters
+    handleResize(event.currentTarget, { width: 10 }, 100);
+};
 
 export const columns: Array<ColumnDef<Task>> = [
     {
@@ -18,7 +30,16 @@ export const columns: Array<ColumnDef<Task>> = [
             const label = labels.find((label) => label.value === row.original.label);
 
             return (
-                <div className="flex space-x-2">
+                <div
+                    className="flex space-x-2"
+                    // onClick={handleResize}
+                    onClick={handleResizeWrapper}
+                    style={{
+                        width: "200px",
+                        resize: "horizontal",
+                        overflow: "hidden",
+                    }}
+                >
                     {label && <Badge variant="outline">{label.label}</Badge>}
                     <span className="max-w-[400px] truncate font-medium">
                         {row.getValue("title")}
@@ -38,9 +59,13 @@ export const columns: Array<ColumnDef<Task>> = [
             }
 
             return (
-                <div className="flex w-[100px] items-center">
-                    {status.icon && <status.icon className="mr-2 h-4 w-4 text-muted-foreground" />}
-                    <span>{status.label}</span>
+                <div>
+                    <div className="flex w-[100px] items-center">
+                        {status.icon && (
+                            <status.icon className="mr-2 h-4 w-4 text-muted-foreground" />
+                        )}
+                        <span>{status.label}</span>
+                    </div>
                 </div>
             );
         },

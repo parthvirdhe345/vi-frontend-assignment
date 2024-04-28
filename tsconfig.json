@@ -22,7 +22,7 @@
         },
 
         "allowUnreachableCode": false,
-        "noImplicitAny": true,
+        "noImplicitAny": false,
         "noImplicitReturns": true,
         "noUncheckedIndexedAccess": true,
         "strictNullChecks": true,

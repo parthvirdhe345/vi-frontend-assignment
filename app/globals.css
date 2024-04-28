@@ -74,3 +74,10 @@
         @apply bg-background text-foreground;
     }
 }
+
+.selected {
+    background-color: rgb(156, 148, 148); /* Change the background color to indicate selection */
+}
+.hovering:hover {
+    background-color: rgb(156, 148, 148) !important;
+}
